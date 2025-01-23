@@ -1,6 +1,6 @@
 package com.why.satoken.service;
 
-import com.why.satoken.auth.entity.Users;
+import com.why.satoken.entity.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

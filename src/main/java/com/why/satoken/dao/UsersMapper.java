@@ -1,7 +1,8 @@
-package com.why.satoken.mapper;
+package com.why.satoken.dao;
 
-import com.why.satoken.auth.entity.Users;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.why.satoken.entity.Users;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author muyu
  * @since 2025-01-23
  */
+@Mapper
 public interface UsersMapper extends BaseMapper<Users> {
 
 }

@@ -1,8 +1,8 @@
 package com.why.satoken.service.impl;
 
-import com.why.satoken.auth.entity.Books;
-import com.why.satoken.auth.mapper.BooksMapper;
-import com.why.satoken.auth.service.IBooksService;
+import com.why.satoken.entity.Books;
+import com.why.satoken.dao.BooksMapper;
+import com.why.satoken.service.IBooksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

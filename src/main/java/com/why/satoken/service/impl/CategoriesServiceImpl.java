@@ -1,8 +1,8 @@
 package com.why.satoken.service.impl;
 
-import com.why.satoken.auth.entity.Categories;
-import com.why.satoken.auth.mapper.CategoriesMapper;
-import com.why.satoken.auth.service.ICategoriesService;
+import com.why.satoken.entity.Categories;
+import com.why.satoken.dao.CategoriesMapper;
+import com.why.satoken.service.ICategoriesService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
