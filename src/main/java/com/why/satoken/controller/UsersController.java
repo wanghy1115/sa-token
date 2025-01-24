@@ -26,10 +26,10 @@ public class UsersController {
      * @return
      */
     @RequestMapping("/doLogin")
-    public String doLogin(@RequestParam String username, @RequestParam String password) {
+    public String doLogin(@RequestParam String username, @RequestParam String password, @RequestParam String logId) {
         // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
         if("zhang".equals(username) && "123456".equals(password)) {
-            StpUtil.login(10001);
+            StpUtil.login(logId);
             return "登录成功";
         }
         return "登录失败";
@@ -66,7 +66,7 @@ public class UsersController {
          * StpUtil.getTokenValue(): 56724a0b-6b5a-4b4a-ba56-8a5e28b80165
          * StpUtil.getTokenName(): satoken
          * StpUtil.getTokenInfo(): SaTokenInfo [tokenName=satoken, tokenValue=56724a0b-6b5a-4b4a-ba56-8a5e28b80165, isLogin=true, loginId=10001, loginType=login, tokenTimeout=2591994, sessionTimeout=2591994, tokenSessionTimeout=-2, tokenActiveTimeout=-1, loginDevice=default-device, tag=null]
-         * StpUtil.getLoginIdAsString(): 123456
+         * StpUtil.getLoginIdAsString(): 10001
          */
         System.out.println(String.format("StpUtil.getTokenValue(): %s" , StpUtil.getTokenValue()));
         System.out.println(String.format("StpUtil.getTokenName(): %s" , StpUtil.getTokenName()));

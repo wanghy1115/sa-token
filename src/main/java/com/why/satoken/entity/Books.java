@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * <p>
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2025-01-23
  */
 @ApiModel(value = "Books对象", description = "")
+@Data
 public class Books implements Serializable {
 
     private static final long serialVersionUID = 1L;
