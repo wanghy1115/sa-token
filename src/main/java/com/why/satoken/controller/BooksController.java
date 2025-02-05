@@ -1,5 +1,7 @@
 package com.why.satoken.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.why.satoken.entity.Books;
@@ -22,30 +24,30 @@ import java.util.List;
  * @since 2025-01-23
  */
 @RestController
-@RequestMapping("/auth/books")
+@RequestMapping("/books")
 public class BooksController {
     @Resource
     IBooksService booksService;
 
     @PostMapping("/addBook")
     public Result<Boolean> addBook(@RequestBody Books book) {
-        StpUtil.checkPermission("insert_book");
+//        StpUtil.checkPermission("insert_book");
         return Result.createSuccess(booksService.save(book));
 
     }
     @GetMapping("/deleteBook")
     public Result<Boolean> deleteBook(@RequestParam String id) {
-        StpUtil.checkPermission("delete_book");
+//        StpUtil.checkPermission("delete_book");
         return Result.createSuccess(booksService.removeById(id));
     }
     @PostMapping("/updateBook")
     public Result<Boolean> updateBook(@RequestBody Books book) {
-        StpUtil.checkPermission("update_book");
+//        StpUtil.checkPermission("update_book");
         return Result.createSuccess(booksService.updateById(book));
     }
+    @SaCheckLogin
     @GetMapping("/pageList")
     public Result<List<Books>> pageList() {
-        StpUtil.checkPermission("select_book");
         return Result.createSuccess(booksService.list());
     }
 }

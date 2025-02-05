@@ -1,11 +1,16 @@
 package com.why.satoken.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.why.satoken.entity.Books;
+import com.why.satoken.entity.Users;
+import com.why.satoken.entity.base.Result;
+import com.why.satoken.service.impl.UsersServiceImpl;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -16,8 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025-01-23
  */
 @RestController
-@RequestMapping("/auth/users")
+@RequestMapping("/users")
 public class UsersController {
+
+    @Resource
+    private UsersServiceImpl usersService;
+
 
     /**
      * 登录
@@ -25,7 +34,7 @@ public class UsersController {
      * @param password
      * @return
      */
-    @RequestMapping("/doLogin")
+    @RequestMapping("/auth/doLogin")
     public String doLogin(@RequestParam String username, @RequestParam String password, @RequestParam String logId) {
         // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
         if("zhang".equals(username) && "123456".equals(password)) {
@@ -40,7 +49,7 @@ public class UsersController {
      * 查询登录状态
      * @return
      */
-    @RequestMapping("/isLogin")
+    @RequestMapping("/auth/isLogin")
     public String isLogin() {
         //StpUtil.isLogin()返回的是true和false，StpUtil.checkLogin()如果没有登录会抛出异常NotLoginException
         return "当前会话是否登录：" + StpUtil.isLogin();
@@ -73,6 +82,20 @@ public class UsersController {
         System.out.println(String.format("StpUtil.getTokenInfo(): %s" , StpUtil.getTokenInfo()));
         System.out.println(String.format("StpUtil.getLoginIdAsString(): %s" , StpUtil.getLoginIdAsString()));
         return StpUtil.getLoginIdAsString();
+    }
+
+
+
+
+    @PostMapping("/updateUser")
+    public Result<Boolean> updateUser(@RequestBody Users user) {
+
+        return Result.createSuccess(usersService.updateById(user));
+    }
+    @SaCheckLogin
+    @GetMapping("/pageList")
+    public Result<List<Users>> pageList() {
+        return Result.createSuccess(usersService.list());
     }
 
 }

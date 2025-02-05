@@ -4,6 +4,7 @@ import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +27,9 @@ public class StpInterfaceImpl implements StpInterface {
         permissionMap.put("10001", List.of("select_book", "update_book", "insert_book"));
         //可以使用*作为通配符
         permissionMap.put("10002", List.of("*_book"));
+        permissionMap.put("10003", new ArrayList<>());
         roleMap.put("10001", List.of("admin", "super_admin"));
+        roleMap.put("10002", List.of("student"));
     }
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
