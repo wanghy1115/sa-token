@@ -1,8 +1,7 @@
-package com.why.satoken.entity;
+package com.why.satoken.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
@@ -16,26 +15,19 @@ import io.swagger.annotations.ApiModelProperty;
  * @author muyu
  * @since 2025-01-23
  */
-@TableName("Borrow_Records")
-@ApiModel(value = "BorrowRecords对象", description = "")
-public class BorrowRecords implements Serializable {
+@ApiModel(value = "Users对象", description = "")
+public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "record_id", type = IdType.AUTO)
-    private Integer recordId;
-
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
-    private Integer bookId;
+    private String username;
 
-    private LocalDateTime borrowDate;
+    private String password;
 
-    private LocalDateTime returnDate;
-
-    private LocalDateTime actualReturnDate;
-
-    private String status;
+    private String email;
 
     @ApiModelProperty("创建人")
     private String createBy;
@@ -51,14 +43,6 @@ public class BorrowRecords implements Serializable {
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
 
-    public Integer getRecordId() {
-        return recordId;
-    }
-
-    public void setRecordId(Integer recordId) {
-        this.recordId = recordId;
-    }
-
     public Integer getUserId() {
         return userId;
     }
@@ -67,44 +51,28 @@ public class BorrowRecords implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getBookId() {
-        return bookId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public LocalDateTime getBorrowDate() {
-        return borrowDate;
+    public String getPassword() {
+        return password;
     }
 
-    public void setBorrowDate(LocalDateTime borrowDate) {
-        this.borrowDate = borrowDate;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public LocalDateTime getReturnDate() {
-        return returnDate;
+    public String getEmail() {
+        return email;
     }
 
-    public void setReturnDate(LocalDateTime returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public LocalDateTime getActualReturnDate() {
-        return actualReturnDate;
-    }
-
-    public void setActualReturnDate(LocalDateTime actualReturnDate) {
-        this.actualReturnDate = actualReturnDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getCreateBy() {
@@ -149,14 +117,11 @@ public class BorrowRecords implements Serializable {
 
     @Override
     public String toString() {
-        return "BorrowRecords{" +
-            "recordId = " + recordId +
-            ", userId = " + userId +
-            ", bookId = " + bookId +
-            ", borrowDate = " + borrowDate +
-            ", returnDate = " + returnDate +
-            ", actualReturnDate = " + actualReturnDate +
-            ", status = " + status +
+        return "Users{" +
+            "userId = " + userId +
+            ", username = " + username +
+            ", password = " + password +
+            ", email = " + email +
             ", createBy = " + createBy +
             ", createdAt = " + createdAt +
             ", delFlag = " + delFlag +

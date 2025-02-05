@@ -1,6 +1,6 @@
 package com.why.satoken.service;
 
-import com.why.satoken.entity.BorrowRecords;
+import com.why.satoken.entity.po.BorrowRecords;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

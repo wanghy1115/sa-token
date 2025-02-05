@@ -1,11 +1,13 @@
-package com.why.satoken.entity;
+package com.why.satoken.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * <p>
@@ -15,17 +17,26 @@ import io.swagger.annotations.ApiModelProperty;
  * @author muyu
  * @since 2025-01-23
  */
-@ApiModel(value = "Categories对象", description = "")
-public class Categories implements Serializable {
+@ApiModel(value = "Books对象", description = "")
+@Data
+public class Books implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "category_id", type = IdType.AUTO)
+    @TableId(value = "book_id", type = IdType.AUTO)
+    private Integer bookId;
+
+    private String title;
+
+    private String author;
+
+    private String isbn;
+
+    private LocalDate publishDate;
+
     private Integer categoryId;
 
-    private String name;
-
-    private String description;
+    private Integer stock;
 
     @ApiModelProperty("创建人")
     private String createBy;
@@ -41,6 +52,46 @@ public class Categories implements Serializable {
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
 
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public LocalDate getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(LocalDate publishDate) {
+        this.publishDate = publishDate;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -49,20 +100,12 @@ public class Categories implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getName() {
-        return name;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public String getCreateBy() {
@@ -107,10 +150,14 @@ public class Categories implements Serializable {
 
     @Override
     public String toString() {
-        return "Categories{" +
-            "categoryId = " + categoryId +
-            ", name = " + name +
-            ", description = " + description +
+        return "Books{" +
+            "bookId = " + bookId +
+            ", title = " + title +
+            ", author = " + author +
+            ", isbn = " + isbn +
+            ", publishDate = " + publishDate +
+            ", categoryId = " + categoryId +
+            ", stock = " + stock +
             ", createBy = " + createBy +
             ", createdAt = " + createdAt +
             ", delFlag = " + delFlag +

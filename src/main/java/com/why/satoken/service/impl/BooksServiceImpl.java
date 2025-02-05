@@ -1,6 +1,6 @@
 package com.why.satoken.service.impl;
 
-import com.why.satoken.entity.Books;
+import com.why.satoken.entity.po.Books;
 import com.why.satoken.dao.BooksMapper;
 import com.why.satoken.service.IBooksService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

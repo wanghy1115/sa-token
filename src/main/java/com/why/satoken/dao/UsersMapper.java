@@ -1,7 +1,7 @@
 package com.why.satoken.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.why.satoken.entity.Users;
+import com.why.satoken.entity.po.Users;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

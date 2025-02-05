@@ -1,4 +1,4 @@
-package com.why.satoken.entity;
+package com.why.satoken.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,19 +15,17 @@ import io.swagger.annotations.ApiModelProperty;
  * @author muyu
  * @since 2025-01-23
  */
-@ApiModel(value = "Users对象", description = "")
-public class Users implements Serializable {
+@ApiModel(value = "Categories对象", description = "")
+public class Categories implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer userId;
+    @TableId(value = "category_id", type = IdType.AUTO)
+    private Integer categoryId;
 
-    private String username;
+    private String name;
 
-    private String password;
-
-    private String email;
+    private String description;
 
     @ApiModelProperty("创建人")
     private String createBy;
@@ -43,36 +41,28 @@ public class Users implements Serializable {
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getCreateBy() {
@@ -117,11 +107,10 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "Users{" +
-            "userId = " + userId +
-            ", username = " + username +
-            ", password = " + password +
-            ", email = " + email +
+        return "Categories{" +
+            "categoryId = " + categoryId +
+            ", name = " + name +
+            ", description = " + description +
             ", createBy = " + createBy +
             ", createdAt = " + createdAt +
             ", delFlag = " + delFlag +

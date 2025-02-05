@@ -1,6 +1,6 @@
 package com.why.satoken.dao;
 
-import com.why.satoken.entity.Books;
+import com.why.satoken.entity.po.Books;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

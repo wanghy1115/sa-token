@@ -1,13 +1,12 @@
-package com.why.satoken.entity;
+package com.why.satoken.entity.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 /**
  * <p>
@@ -17,26 +16,26 @@ import lombok.Data;
  * @author muyu
  * @since 2025-01-23
  */
-@ApiModel(value = "Books对象", description = "")
-@Data
-public class Books implements Serializable {
+@TableName("Borrow_Records")
+@ApiModel(value = "BorrowRecords对象", description = "")
+public class BorrowRecords implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "book_id", type = IdType.AUTO)
+    @TableId(value = "record_id", type = IdType.AUTO)
+    private Integer recordId;
+
+    private Integer userId;
+
     private Integer bookId;
 
-    private String title;
+    private LocalDateTime borrowDate;
 
-    private String author;
+    private LocalDateTime returnDate;
 
-    private String isbn;
+    private LocalDateTime actualReturnDate;
 
-    private LocalDate publishDate;
-
-    private Integer categoryId;
-
-    private Integer stock;
+    private String status;
 
     @ApiModelProperty("创建人")
     private String createBy;
@@ -52,6 +51,22 @@ public class Books implements Serializable {
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
 
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public Integer getBookId() {
         return bookId;
     }
@@ -60,52 +75,36 @@ public class Books implements Serializable {
         this.bookId = bookId;
     }
 
-    public String getTitle() {
-        return title;
+    public LocalDateTime getBorrowDate() {
+        return borrowDate;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBorrowDate(LocalDateTime borrowDate) {
+        this.borrowDate = borrowDate;
     }
 
-    public String getAuthor() {
-        return author;
+    public LocalDateTime getReturnDate() {
+        return returnDate;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setReturnDate(LocalDateTime returnDate) {
+        this.returnDate = returnDate;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public LocalDateTime getActualReturnDate() {
+        return actualReturnDate;
     }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
+    public void setActualReturnDate(LocalDateTime actualReturnDate) {
+        this.actualReturnDate = actualReturnDate;
     }
 
-    public LocalDate getPublishDate() {
-        return publishDate;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPublishDate(LocalDate publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCreateBy() {
@@ -150,14 +149,14 @@ public class Books implements Serializable {
 
     @Override
     public String toString() {
-        return "Books{" +
-            "bookId = " + bookId +
-            ", title = " + title +
-            ", author = " + author +
-            ", isbn = " + isbn +
-            ", publishDate = " + publishDate +
-            ", categoryId = " + categoryId +
-            ", stock = " + stock +
+        return "BorrowRecords{" +
+            "recordId = " + recordId +
+            ", userId = " + userId +
+            ", bookId = " + bookId +
+            ", borrowDate = " + borrowDate +
+            ", returnDate = " + returnDate +
+            ", actualReturnDate = " + actualReturnDate +
+            ", status = " + status +
             ", createBy = " + createBy +
             ", createdAt = " + createdAt +
             ", delFlag = " + delFlag +

@@ -1,6 +1,7 @@
 package com.why.satoken.service;
 
-import com.why.satoken.entity.Users;
+import com.why.satoken.entity.bo.UserMessage;
+import com.why.satoken.entity.po.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2025-01-23
  */
 public interface IUsersService extends IService<Users> {
-
+    UserMessage judgeLogin(String username, String password);
 }

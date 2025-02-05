@@ -2,13 +2,13 @@ package com.why.satoken.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
-import com.why.satoken.entity.Books;
-import com.why.satoken.entity.Users;
+import com.why.satoken.aspect.service.LogMethodCall;
+import com.why.satoken.entity.bo.UserMessage;
+import com.why.satoken.entity.po.Users;
 import com.why.satoken.entity.base.Result;
 import com.why.satoken.service.impl.UsersServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -35,10 +35,12 @@ public class UsersController {
      * @return
      */
     @RequestMapping("/auth/doLogin")
-    public String doLogin(@RequestParam String username, @RequestParam String password, @RequestParam String logId) {
-        // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-        if("zhang".equals(username) && "123456".equals(password)) {
-            StpUtil.login(logId);
+    public String doLogin(@RequestParam String username, @RequestParam String password) {
+        UserMessage userMessage = usersService.judgeLogin(username, password);
+        if (userMessage != null) {
+            StpUtil.login(userMessage.getUserId());
+            //StpUtil.getSession()默认是根据用户的id获取的seesion，未登录的话，无法获取session
+            StpUtil.getSession().set("userMessage", userMessage);
             return "登录成功";
         }
         return "登录失败";
@@ -86,12 +88,14 @@ public class UsersController {
 
 
 
-
+    @LogMethodCall(securityLevel = "II")
     @PostMapping("/updateUser")
     public Result<Boolean> updateUser(@RequestBody Users user) {
 
         return Result.createSuccess(usersService.updateById(user));
     }
+
+    @LogMethodCall()
     @SaCheckLogin
     @GetMapping("/pageList")
     public Result<List<Users>> pageList() {

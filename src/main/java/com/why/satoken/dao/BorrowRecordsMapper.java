@@ -1,6 +1,6 @@
 package com.why.satoken.dao;
 
-import com.why.satoken.entity.BorrowRecords;
+import com.why.satoken.entity.po.BorrowRecords;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
