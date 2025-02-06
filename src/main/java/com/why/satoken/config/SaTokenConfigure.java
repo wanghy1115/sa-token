@@ -29,7 +29,7 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             // 根据路由划分模块，不同模块不同鉴权
             SaRouter.match("/books/addBook", r -> StpUtil.checkPermission("insert_book"));
             SaRouter.match("/books/deleteBook", r -> StpUtil.checkPermission("delete_book"));
-            SaRouter.match("/books/update_book", r -> StpUtil.checkPermission("goods"));
+            SaRouter.match("/books/updateBook", r -> StpUtil.checkPermission("update_book"));
             //SaRouter.match("/users/^(?!auth).*", r -> StpUtil.checkRole("*admin"));
 
             /**

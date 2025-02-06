@@ -1,5 +1,4 @@
 package com.why.satoken.entity.bo;
-import lombok.Data;
 
 
 public class UserMessage {

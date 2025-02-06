@@ -2,12 +2,14 @@ package com.why.satoken.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
 import com.why.satoken.aspect.service.LogMethodCall;
 import com.why.satoken.entity.bo.UserMessage;
 import com.why.satoken.entity.po.Users;
 import com.why.satoken.entity.base.Result;
 import com.why.satoken.service.impl.UsersServiceImpl;
 import jakarta.annotation.Resource;
+import org.checkerframework.checker.units.qual.N;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,15 +37,15 @@ public class UsersController {
      * @return
      */
     @RequestMapping("/auth/doLogin")
-    public String doLogin(@RequestParam String username, @RequestParam String password) {
+    public SaResult doLogin(@RequestParam String username, @RequestParam String password) {
         UserMessage userMessage = usersService.judgeLogin(username, password);
         if (userMessage != null) {
             StpUtil.login(userMessage.getUserId());
             //StpUtil.getSession()默认是根据用户的id获取的seesion，未登录的话，无法获取session
             StpUtil.getSession().set("userMessage", userMessage);
-            return "登录成功";
+            return SaResult.data(StpUtil.getTokenInfo());
         }
-        return "登录失败";
+        return SaResult.data("登录失败");
     }
 
 
@@ -95,11 +97,68 @@ public class UsersController {
         return Result.createSuccess(usersService.updateById(user));
     }
 
-    @LogMethodCall()
+    @LogMethodCall(securityLevel = "I")
     @SaCheckLogin
     @GetMapping("/pageList")
     public Result<List<Users>> pageList() {
         return Result.createSuccess(usersService.list());
     }
+
+    /**
+     * 删除用户，需要通过二次认证
+     * @param id
+     * @return
+     */
+    @LogMethodCall(securityLevel = "III")
+    @GetMapping("/deleteUser")
+    public Result<String> deleteUser(@RequestParam String id) {
+        //判断是否开启了删除用户的二级认证
+        if(!StpUtil.isSafe("deleteUser")) {
+            return Result.createError("请先通过二级认证");
+        }
+        StpUtil.closeSafe("deleteUser");
+        if (usersService.removeById(id)) {
+            return Result.createSuccess("删除成功");
+        }
+        return Result.createError("删除失败");
+    }
+
+    /**
+     * 验证二次认证
+     * @param pass
+     * @param type
+     * @return
+     */
+    @LogMethodCall(securityLevel = "I")
+    @GetMapping("/openSafe")
+    public Result<String> openSafe(@RequestParam String pass, @RequestParam String type) {
+        UserMessage userMessage = (UserMessage)StpUtil.getSession().get("userMessage");
+        Users byId = usersService.getById(userMessage.getUserId());
+        if (byId != null && byId.getPassword().equals(pass)) {
+            //开启安全验证60s
+            StpUtil.openSafe(type,60);
+            return Result.createSuccess("二级认证成功");
+        }
+        return Result.createError("二级认证失败");
+    }
+
+
+    @LogMethodCall(securityLevel = "IV")
+    @GetMapping("/switchIdentity")
+    public Result<String> switchIdentity(@RequestParam String userId) {
+        boolean login = StpUtil.isLogin(userId);
+        System.out.println("切换的账号是否登录:" + login);
+        StpUtil.switchTo(userId);
+        System.out.println("当前用户:"+ StpUtil.getLoginId());
+        return Result.createSuccess("切换成功");
+    }
+
+    @LogMethodCall(securityLevel = "IV")
+    @GetMapping("/endSwitch")
+    public Result<String> endSwitch() {
+        StpUtil.endSwitch();
+        return Result.createSuccess("已经退出角色切换模式");
+    }
+
 
 }

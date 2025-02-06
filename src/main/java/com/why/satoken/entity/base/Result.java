@@ -8,13 +8,33 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-@Data
+
 public class Result<T> implements Serializable {
     private final String code;
     private final String subCode;
     private final String message;
     private final Boolean success;
     private final T data;
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getSubCode() {
+        return subCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public T getData() {
+        return data;
+    }
 
     public Result() {
         this((String)null, (String)null, (Boolean)null);
