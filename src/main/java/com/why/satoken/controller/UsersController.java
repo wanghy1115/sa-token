@@ -1,15 +1,20 @@
 package com.why.satoken.controller;
 
+import ch.qos.logback.core.util.StringUtil;
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.why.satoken.aspect.service.LogMethodCall;
+import com.why.satoken.constants.PassConstants;
 import com.why.satoken.entity.bo.UserMessage;
 import com.why.satoken.entity.po.Users;
 import com.why.satoken.entity.base.Result;
 import com.why.satoken.service.impl.UsersServiceImpl;
 import jakarta.annotation.Resource;
 import org.checkerframework.checker.units.qual.N;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +31,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UsersController {
 
+    private static final Logger log = LoggerFactory.getLogger(UsersController.class);
     @Resource
     private UsersServiceImpl usersService;
 
@@ -37,10 +43,12 @@ public class UsersController {
      * @return
      */
     @RequestMapping("/auth/doLogin")
-    public SaResult doLogin(@RequestParam String username, @RequestParam String password) {
+    public SaResult doLogin(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) String deviceType) {
         UserMessage userMessage = usersService.judgeLogin(username, password);
         if (userMessage != null) {
-            StpUtil.login(userMessage.getUserId());
+            //登录当前会话
+            StpUtil.login(userMessage.getUserId(), deviceType);
+            log.info("用户{}，在设备{}登录", username, deviceType);
             //StpUtil.getSession()默认是根据用户的id获取的seesion，未登录的话，无法获取session
             StpUtil.getSession().set("userMessage", userMessage);
             return SaResult.data(StpUtil.getTokenInfo());
@@ -81,11 +89,7 @@ public class UsersController {
          * StpUtil.getTokenInfo(): SaTokenInfo [tokenName=satoken, tokenValue=56724a0b-6b5a-4b4a-ba56-8a5e28b80165, isLogin=true, loginId=10001, loginType=login, tokenTimeout=2591994, sessionTimeout=2591994, tokenSessionTimeout=-2, tokenActiveTimeout=-1, loginDevice=default-device, tag=null]
          * StpUtil.getLoginIdAsString(): 10001
          */
-        System.out.println(String.format("StpUtil.getTokenValue(): %s" , StpUtil.getTokenValue()));
-        System.out.println(String.format("StpUtil.getTokenName(): %s" , StpUtil.getTokenName()));
-        System.out.println(String.format("StpUtil.getTokenInfo(): %s" , StpUtil.getTokenInfo()));
-        System.out.println(String.format("StpUtil.getLoginIdAsString(): %s" , StpUtil.getLoginIdAsString()));
-        return StpUtil.getLoginIdAsString();
+         return StpUtil.getLoginIdAsString();
     }
 
 
@@ -143,22 +147,56 @@ public class UsersController {
     }
 
 
+    /**
+     * 切换用户案例
+     * @param userId
+     * @return
+     */
     @LogMethodCall(securityLevel = "IV")
     @GetMapping("/switchIdentity")
     public Result<String> switchIdentity(@RequestParam String userId) {
-        boolean login = StpUtil.isLogin(userId);
-        System.out.println("切换的账号是否登录:" + login);
+        //切换用户
         StpUtil.switchTo(userId);
         System.out.println("当前用户:"+ StpUtil.getLoginId());
-        return Result.createSuccess("切换成功");
+        //退出
+        StpUtil.endSwitch();
+        return Result.createSuccess("切换结束");
     }
 
-    @LogMethodCall(securityLevel = "IV")
-    @GetMapping("/endSwitch")
-    public Result<String> endSwitch() {
-        StpUtil.endSwitch();
-        return Result.createSuccess("已经退出角色切换模式");
+    /**
+     * 获取加密后的密码
+     * Encryption
+     */
+    @GetMapping("/auth/encryption")
+    public Result<String> encryption(@RequestParam String pass) {
+        String res;
+        //加密使用aesEncrypt，解密使用aesDecrypt
+        res = SaSecureUtil.aesEncrypt(PassConstants.SYSMMETRIC_KEY, pass);
+        return Result.createSuccess(res);
     }
+    /**
+     * 获取摘要后的密码
+     */
+    @GetMapping("/auth/sha")
+    public Result<String> sha256(@RequestParam String pass) {
+        String res;
+        //加密使用aesEncrypt，解密使用aesDecrypt
+        res = SaSecureUtil.sha256(pass);
+        return Result.createSuccess(res);
+    }
+
+    /**
+     * 获取非对称加密后的密码
+     * Encryption
+     */
+    @GetMapping("/auth/private")
+    public Result<String> rsaPass(@RequestParam String pass) {
+        String res;
+        //加密使用aesEncrypt，解密使用aesDecrypt
+        res = SaSecureUtil.rsaEncryptByPublic(PassConstants.PUBLIC_KEY, pass);
+        return Result.createSuccess(res);
+    }
+
 
 
 }
